@@ -28,6 +28,8 @@ namespace MvcOMB.Models
       get { return _sesion != null; }
     }
 
+    //  TODO: agregar menu para todos los perfiles
+
     //  Version 1: un menu simple, la vista deberia decidir como armar la ruta o el action link de destino
     //
     public IEnumerable<string> GetMenuApropiado()

@@ -5,29 +5,31 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using Entidades;
 using Data;
+using Entidades;
 
 namespace Servicios
 {
   public class ProductServices
   {
-    public Libro GetLibroFromId(string isbn13)
+    public Libro GetLibroFromIsbn(string isbn)
     {
       OMBContext ctx = DB.Contexto;
 
-      return ctx.Libros.Find(isbn13);
+      return ctx.Libros.Find(isbn);
     }
 
-    public bool UpdateLibro(Libro libro)
+    public bool ActualizarLibro(Libro libro)
     {
       OMBContext ctx = DB.Contexto;
+
       try
       {
+        ctx.MostrarCambios();
         ctx.Entry(libro).State = EntityState.Modified;
         ctx.SaveChanges();
       }
-      catch (Exception ex)
+      catch (Exception)
       {
         return false;
       }

@@ -13,8 +13,9 @@
             Nuestro Precio
             <span class="label label-primary"> @( Model.Precio.HasValue ? Model.Precio.Value.ToString("c") : "") </span>
           </h3>
-          <div class="bottom-right">
-            @Html.ActionLink("Editar", "EditarLibro", "Edit", new { isbn13 = Model.ISBN13 }, new { @class = "btn btn-block btn-primary" })
+          <div>
+            @Html.ActionLink("Editar", "EditarLibro", "Edit", 
+                new { isbn = Model.ISBN13 }, new { @class = "btn btn-primary"})
           </div>
         </div>
 

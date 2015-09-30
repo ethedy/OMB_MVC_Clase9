@@ -6,6 +6,8 @@ using System.Web.Mvc;
 using Entidades;
 using Servicios;
 
+using System.Web.Security;
+
 namespace MvcOMB.Controllers
 {
   public class HomeController : Controller
@@ -37,6 +39,8 @@ namespace MvcOMB.Controllers
           //  Opcion 1: terminamos aca y no pedimos perfil
           //  result = View("LoginOK", user);
 
+          //  TODO acomodar autenticacion para que no se repita el codigo
+          
           //  Opcion 2: redirigimos a otra vista que nos permite elegir el perfil (salvo que tenga un unico perfil...)
           if (user.Perfiles.Count > 1)
           {
@@ -48,8 +52,19 @@ namespace MvcOMB.Controllers
             //
             Session["SESION_USER"] = serv.CrearSesion(user, user.Perfiles.Single());
 
-            //  creamos una nueva vista strong-typed para incorporar la Sesion
-            result = View("LoginOK_v2", Session["SESION_USER"] as Sesion);
+            FormsAuthentication.SetAuthCookie(user.Login, false);
+
+            string redirectUrl = FormsAuthentication.GetRedirectUrl(user.Login, false);
+
+            if (redirectUrl == "/" || string.IsNullOrEmpty(redirectUrl))
+            {
+              //  creamos una nueva vista strong-typed para incorporar la Sesion
+              result = View("LoginOK_v2", Session["SESION_USER"] as Sesion);
+            }
+            else
+            {
+              result = new RedirectResult(redirectUrl);
+            }
           }
         }
         else
@@ -95,6 +110,8 @@ namespace MvcOMB.Controllers
 
       sesionActual.Logout();
       Session.Remove("SESION_USER");
+
+      FormsAuthentication.SignOut();
       return View("Inicio");
     }
   }

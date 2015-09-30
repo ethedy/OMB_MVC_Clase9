@@ -5,22 +5,22 @@ using System.Web;
 using System.Web.Mvc;
 
 using Entidades;
-using MvcOMB.Models;
 using Servicios;
 
 namespace MvcOMB.Controllers
 {
+  [Authorize]
   public class EditController : Controller
   {
     // GET: Edit
-    public ActionResult EditarLibro(string isbn13)
+    public ActionResult EditarLibro(string isbn)
     {
       ProductServices serv = new ProductServices();
       Libro libro;
 
-      libro = serv.GetLibroFromId(isbn13);
+      libro = serv.GetLibroFromIsbn(isbn);
       if (libro == null)
-        return HttpNotFound("No se encontro el ISBN");
+        return HttpNotFound("Libro no encontrado");
 
       return View(libro);
     }
@@ -29,16 +29,24 @@ namespace MvcOMB.Controllers
     public ActionResult EditarLibro(Libro libro, string isbn13)
     {
       ProductServices serv = new ProductServices();
+      Libro libroDominio;
 
-      //  obtenemos el libro original
-      Libro original = serv.GetLibroFromId(isbn13);
+      libroDominio = serv.GetLibroFromIsbn(isbn13);
 
-      //  intentamos actualizarlo solo con los campos que editamos...
-      if (TryUpdateModel(original, "", new string[] {"ISBN10", "Titulo", "Editorial", "Autores", "Precio" }))
+      if (libroDominio != null)
       {
-        serv.UpdateLibro(original);
+        if (TryUpdateModel(libroDominio, new string[]
+                          {
+                            nameof(libro.ISBN10), nameof(libro.Titulo),
+                            "Autores", "Editorial", "Precio"
+                          }))
+        {
+          if (!serv.ActualizarLibro(libroDominio))
+            return new HttpStatusCodeResult(500);
+        }
       }
-      return View(original);
+
+      return View(libroDominio);
     }
   }
 }
