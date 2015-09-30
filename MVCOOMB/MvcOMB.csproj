@@ -19,7 +19,7 @@
     <IISExpressAnonymousAuthentication />
     <IISExpressWindowsAuthentication />
     <IISExpressUseClassicPipelineMode />
-    <AssemblyVersion>1.0.15272.170</AssemblyVersion>
+    <AssemblyVersion>1.0.15272.182</AssemblyVersion>
     <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
@@ -192,6 +192,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Compile Include="Controllers\EditController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\IngresosController.cs" />
     <Compile Include="Controllers\ListadosController.cs" />
@@ -199,6 +200,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Models\EditorViewModel.cs" />
     <Compile Include="Models\ListadosViewModel.cs" />
     <Compile Include="Models\MainMenuViewModel.cs" />
     <Compile Include="Models\MenuInfo.cs" />
@@ -219,6 +221,7 @@
     <Content Include="Views\Shared\DetalleLibro.cshtml" />
     <Content Include="Views\Ingresos\NewLibro.cshtml" />
     <Content Include="Views\Ingresos\Agregar.cshtml" />
+    <Content Include="Views\Edit\EditarLibro.cshtml" />
     <None Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
     </None>
